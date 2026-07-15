@@ -3,24 +3,28 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { logout } from '@/app/actions/auth'
+import styles from './Admin.module.css'
 
 export default function AdminNav() {
   const path = usePathname()
 
   return (
-    <header className="bg-ink text-white shadow-lg">
-      <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div>
-          <span className="font-extrabold tracking-tight text-[15px]">FIMMG</span>
-          <span className="ml-2 text-[10px] font-bold tracking-[.16em] uppercase text-amber">Admin</span>
+    <header className={styles.topbar}>
+      <div className={styles.topbarInner}>
+        <div className={styles.brand}>
+          <span className={styles.brandMark}>FM</span>
+          <span className={styles.brandText}>
+            <span className={styles.brandName}>FIMMG Sardegna</span>
+            <span className={styles.brandMeta}>Pannello admin</span>
+          </span>
         </div>
         <form action={logout}>
-          <button type="submit" className="text-[12px] font-semibold text-white/60 hover:text-white transition cursor-pointer">
+          <button type="submit" className={styles.logout}>
             Esci
           </button>
         </form>
       </div>
-      <nav className="max-w-3xl mx-auto px-4 flex gap-1 pb-0">
+      <nav className={styles.nav}>
         {[
           { href: '/admin/utenti',      label: 'Utenti' },
           { href: '/admin/convenzioni', label: 'Convenzioni' },
@@ -28,11 +32,7 @@ export default function AdminNav() {
           <Link
             key={href}
             href={href}
-            className={`px-4 py-2 text-[13px] font-semibold rounded-t-lg transition ${
-              path.startsWith(href)
-                ? 'bg-[#F0F4F5] text-petrol'
-                : 'text-white/70 hover:text-white'
-            }`}
+            className={`${styles.navLink} ${path.startsWith(href) ? styles.navLinkActive : ''}`}
           >
             {label}
           </Link>

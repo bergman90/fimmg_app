@@ -6,7 +6,7 @@
 > aggiorna "Stato attuale" e aggiungi una nuova voce in fondo al changelog
 > con data e ora.
 
-## Stato attuale (ultimo aggiornamento: 2026-07-15 19:58)
+## Stato attuale (ultimo aggiornamento: 2026-07-15 20:21)
 
 - **Stack scelto**: Next.js (TypeScript, App Router) + Prisma + PostgreSQL.
 - **Hosting scelto**: Render (app, free tier, region Frankfurt/EU) + Neon
@@ -37,7 +37,7 @@
 
 #### UI (può farlo Claude normale — solo JSX/HTML/CSS, niente da eseguire)
 - [x] **Tessera** — layout aggiornato con `TesseraClient.module.css` e loghi FIMMG forniti.
-- [ ] **Admin login** — riscrivere `src/app/admin/login/page.tsx` + `AdminLoginForm.tsx` se necessario.
+- [x] **Admin login** — aggiornata con grafica coerente al resto dell'app.
 
 #### Asset (richiede file dall'associazione o da creare)
 - [x] **Logo bianco** — sostituito `public/logo-white.png` con il file fornito dall'associazione.
@@ -51,14 +51,14 @@
 - ✅ DB Neon configurato e migrato
 - ✅ Login page aggiornata al prototipo con wrapper device e CSS module dedicato
 - ✅ Flusso completo funzionante: login → tessera → QR → verifica → convenzioni
-- ✅ Pannello admin: utenti, convenzioni, tag
+- ✅ Pannello admin aggiornato: login admin, navigazione, utenti, convenzioni e tag con grafica coerente
 - ✅ Security headers, rate limiting, sanitizzazione HTML
 - ✅ Anteprima link social/WhatsApp configurata con logo FIMMG (`public/social-preview.png`)
 
 ## Task rimanenti (ordine suggerito dal brief, sezione 10)
 
 1. ~~Scaffolding progetto (Next.js + Prisma)~~ — **fatto**.
-2. ~~**Backend auth**~~ — **fatto**: login iscritti/admin (argon2id, anti-timing, rate limit), sessioni JWT cookie, link invito monouso 72h, riscatto con scelta password.
+2. ~~**Backend auth**~~ — **fatto**: login iscritti/admin (argon2id, anti-timing, rate limit), sessioni JWT cookie, link invito monouso 24h, riscatto con scelta password.
 3. ~~**Endpoint verifica QR**~~ — **fatto**: token JWT 60s (`src/lib/qr.ts`), Server Action `generateQrToken`, route pubblica `/verifica?t=...` con HTML "VALIDO / NON VALIDO" (nessun dato personale esposto).
 4. ~~**Frontend PWA**~~ — **fatto**: login, tessera (orologio live, QR auto-refresh 50s, sigillo ambra), convenzioni (ricerca + filtri tag), invito con scelta password, service worker offline, manifest PWA. Fedele al prototipo HTML. Testato: tutte le route rispondono correttamente.
 5. ~~**Pannello admin**~~ — **fatto**: login admin separato, gestione utenti (crea+link, disattiva/riattiva, rigenera link), gestione convenzioni (CRUD, attiva/disattiva, tag CSV). Route group `(app)` per separare login dal layout protetto.
@@ -78,6 +78,44 @@
 - Nessuna registrazione autonoma: solo l'admin crea gli account.
 
 ## Changelog
+
+### 2026-07-15 20:21 — Sessione 14 (link invito 24h)
+
+**Modifiche apportate:**
+- `src/app/actions/invite.ts` — portata la durata dei nuovi link invito da 72 ore a 24 ore.
+- `src/app/admin/(app)/utenti/CreateUserButton.tsx` — aggiornata la modale admin: ora indica "Scade in 24h".
+- `docs/guida.md`, `docs/fimmg-app-brief.md`, `HANDOFF.md` — aggiornati i riferimenti documentali da 72h a 24h.
+
+**Verifica:**
+- Verificato con `rg` che non restino riferimenti reali a "72h" o "72 ore" nel codice e nei documenti utili.
+- `npm.cmd run lint` completato con successo. Restano 2 warning non bloccanti sugli `<img>` in `src/app/invito/[token]/page.tsx` e `src/app/tessera/TesseraClient.tsx`.
+- `npm.cmd run build` completato con successo. Resta solo il warning non bloccante del driver Postgres su `sslmode`.
+
+**Nota operativa:**
+- I link gia generati mantengono la scadenza salvata nel database. I nuovi link e quelli rigenerati useranno 24 ore.
+
+---
+
+### 2026-07-15 20:19 — Sessione 13 (restyling admin)
+
+**Modifiche apportate:**
+- `src/app/admin/(app)/Admin.module.css` — aggiunto CSS module condiviso per shell admin, topbar, navigazione, pannelli, liste, form, modali, badge e stati responsive.
+- `src/app/admin/(app)/layout.tsx` e `AdminNav.tsx` — aggiornati layout protetto e navigazione admin con identita visiva FIMMG.
+- `src/app/admin/(app)/utenti/` — aggiornata la pagina iscritti, con statistiche, card ordinate, modal di creazione link e azioni utente piu chiare.
+- `src/app/admin/(app)/convenzioni/` — aggiornata la gestione convenzioni con form, lista, modifica inline, tag e stati visivi coerenti.
+- `src/app/admin/login/` — aggiornata la pagina login admin con CSS module dedicato.
+- `src/app/tessera/TesseraClient.tsx` — sistemato `useClock` per soddisfare la regola lint React 19 senza cambiare comportamento.
+
+**Verifica:**
+- `npm.cmd run lint` completato con successo. Restano 2 warning non bloccanti sugli `<img>` in `src/app/invito/[token]/page.tsx` e `src/app/tessera/TesseraClient.tsx`.
+- `npm.cmd run build` completato con successo. Resta solo il warning non bloccante del driver Postgres su `sslmode`.
+
+**Prossime fasi:**
+- Commit/push delle modifiche admin quando richiesto dall'utente.
+- Eventuale sostituzione degli `<img>` residui con `next/image` per azzerare anche i warning lint.
+- Preparare pagina privacy quando l'associazione fornisce il testo.
+
+---
 
 ### 2026-07-15 19:58 — Sessione 12 (PWA icons + link preview)
 

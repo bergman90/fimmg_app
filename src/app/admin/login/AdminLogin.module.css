@@ -1,0 +1,136 @@
+.root {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+  background:
+    radial-gradient(120% 90% at 50% -10%, #0a6685 0%, #06556E 42%, #043D50 100%);
+  color: #0A2A34;
+}
+
+.wrap {
+  width: min(430px, 100%);
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 22px;
+  color: #fff;
+}
+
+.mark {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+  border-radius: 14px;
+  background: #fff;
+  color: #06556E;
+  font-weight: 900;
+  letter-spacing: -.04em;
+  box-shadow: 0 20px 50px -28px rgba(0, 0, 0, .7);
+}
+
+.kicker {
+  margin: 0 0 5px;
+  color: #F5A632;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: #fff;
+  font-size: 26px;
+  line-height: 1.1;
+  font-weight: 850;
+  letter-spacing: -.025em;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 28px 70px -28px rgba(0, 0, 0, .55);
+}
+
+.intro {
+  margin: 0 0 18px;
+  color: #6B8792;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #6B8792;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid #DCE6E9;
+  border-radius: 11px;
+  background: #F5F8F9;
+  color: #0A2A34;
+  outline: none;
+  font-family: var(--font-mono), "Courier New", monospace;
+  font-size: 15px;
+  padding: 13px 14px;
+  transition: background .18s, border-color .18s;
+}
+
+.field:focus {
+  background: #fff;
+  border-color: #06556E;
+}
+
+.error {
+  margin: 0;
+  color: #B23B31;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.button {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #06556E;
+  border-radius: 12px;
+  background: #06556E;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .18s, border-color .18s, opacity .18s, transform .12s;
+}
+
+.button:hover {
+  background: #075d79;
+  border-color: #075d79;
+}
+
+.button:active {
+  transform: scale(.985);
+}
+
+.button:disabled {
+  opacity: .62;
+  cursor: default;
+}

@@ -1,6 +1,7 @@
 import { db } from '@/lib/db'
 import CreateUserButton from './CreateUserButton'
 import UserRow from './UserRow'
+import styles from '../Admin.module.css'
 
 export default async function UtentiPage() {
   const users = await db.user.findMany({
@@ -19,27 +20,46 @@ export default async function UtentiPage() {
       },
     },
   })
+  const activeCount = users.filter(user => user.active).length
+  const pendingCount = users.filter(user => !user.passwordHash).length
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-5">
+      <header className={styles.pageHeader}>
         <div>
-          <h1 className="text-[22px] font-extrabold tracking-tight text-ink">Utenti</h1>
-          <p className="text-[13px] text-muted">{users.length} iscritti totali</p>
+          <p className={styles.kicker}>Gestione iscritti</p>
+          <h1 className={styles.title}>Utenti</h1>
+          <p className={styles.subtitle}>
+            {users.length} iscritti totali · {activeCount} attivi · {pendingCount} in attesa di password
+          </p>
         </div>
         <CreateUserButton />
-      </div>
+      </header>
 
       {users.length === 0 ? (
-        <div className="text-center py-12 text-muted text-[14px]">
+        <div className={styles.panel}>
+          <div className={styles.empty}>
           Nessun utente ancora. Crea il primo iscritto.
+          </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
-          {users.map(u => (
-            <UserRow key={u.id} user={u} />
-          ))}
-        </div>
+        <section className={styles.panel}>
+          <div className={styles.panelHeader}>
+            <div>
+              <h2 className={styles.panelTitle}>Elenco iscritti</h2>
+              <p className={styles.panelHint}>
+                Crea inviti, rigenera link e gestisci lo stato degli account.
+              </p>
+            </div>
+          </div>
+          <div className={styles.panelBody}>
+            <div className={styles.list}>
+              {users.map(u => (
+                <UserRow key={u.id} user={u} />
+              ))}
+            </div>
+          </div>
+        </section>
       )}
     </div>
   )

@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef } from 'react'
 import { createConvention, updateConvention, type ConventionResult } from '@/app/actions/admin'
+import styles from '../Admin.module.css'
 
 interface Props {
   mode: 'create'
@@ -34,64 +35,61 @@ export default function ConventionForm(props: Props | EditProps) {
   }, [state, isEdit, props])
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="flex flex-col gap-3">
-      <div>
-        <label className="block text-[11px] font-semibold uppercase tracking-[.08em] text-muted mb-1">
-          Nome attività
-        </label>
+    <form ref={formRef} action={formAction} noValidate className={styles.form}>
+      <div className={styles.fieldGroup}>
+        <label className={styles.label}>Nome attività</label>
         <input
           name="name"
           type="text"
           required
           placeholder="Es. Farmacia Rossi"
           defaultValue={isEdit ? (props as EditProps).defaultName : ''}
-          className="w-full bg-[#F5F8F9] border border-line rounded-xl px-3.5 py-2.5 text-[14px] text-ink outline-none focus:border-petrol focus:bg-white transition"
+          className={styles.field}
         />
       </div>
 
-      <div>
-        <label className="block text-[11px] font-semibold uppercase tracking-[.08em] text-muted mb-1">
-          Testo beneficio (HTML consentito: &lt;b&gt;)
-        </label>
+      <div className={styles.fieldGroup}>
+        <label className={styles.label}>Testo beneficio</label>
         <textarea
           name="benefitText"
           required
           rows={3}
           placeholder="Es. <b>10%</b> su tutti i prodotti."
           defaultValue={isEdit ? (props as EditProps).defaultBenefitText : ''}
-          className="w-full bg-[#F5F8F9] border border-line rounded-xl px-3.5 py-2.5 text-[14px] text-ink outline-none focus:border-petrol focus:bg-white transition resize-none"
+          className={styles.textarea}
         />
+        <p className={styles.panelHint}>HTML consentito: solo &lt;b&gt; per il grassetto.</p>
       </div>
 
-      <div>
-        <label className="block text-[11px] font-semibold uppercase tracking-[.08em] text-muted mb-1">
-          Tag (separati da virgola)
-        </label>
+      <div className={styles.fieldGroup}>
+        <label className={styles.label}>Tag</label>
         <input
           name="tags"
           type="text"
           placeholder="Es. Salute, Sport, Professionale"
           defaultValue={isEdit ? (props as EditProps).defaultTags : ''}
-          className="w-full bg-[#F5F8F9] border border-line rounded-xl px-3.5 py-2.5 text-[14px] text-ink outline-none focus:border-petrol focus:bg-white transition"
+          className={styles.field}
         />
       </div>
 
-      {state && 'error' in state && (
-        <p className="text-[13px] text-red-600 font-medium">{state.error}</p>
-      )}
-      {state && 'ok' in state && (
-        <p className="text-[13px] text-green-700 font-medium">
-          {isEdit ? 'Convenzione aggiornata.' : 'Convenzione aggiunta.'}
-        </p>
-      )}
+      <div className={styles.formFooter}>
+        <button
+          type="submit"
+          disabled={pending}
+          className={`${styles.button} ${styles.primaryButton}`}
+        >
+          {pending ? 'Salvataggio...' : isEdit ? 'Aggiorna' : 'Aggiungi'}
+        </button>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="self-start bg-petrol text-white text-[13px] font-bold px-5 py-2.5 rounded-lg hover:bg-[#075d79] transition disabled:opacity-60 cursor-pointer"
-      >
-        {pending ? 'Salvataggio…' : isEdit ? 'Aggiorna' : 'Aggiungi'}
-      </button>
+        {state && 'error' in state && (
+          <p className={styles.messageError}>{state.error}</p>
+        )}
+        {state && 'ok' in state && (
+          <p className={styles.messageOk}>
+            {isEdit ? 'Convenzione aggiornata.' : 'Convenzione aggiunta.'}
+          </p>
+        )}
+      </div>
     </form>
   )
 }

@@ -141,7 +141,7 @@ La sezione **Utenti** mostra tutti gli iscritti.
 1. Clicca **+ Nuovo iscritto**
 2. L'app genera automaticamente:
    - Un **username anonimo** (es. `FIMMG-SARD-4837`)
-   - Un **link di invito** valido 72 ore
+   - Un **link di invito** valido 24 ore
 3. Clicca **Copia** accanto al link
 4. Invia il link all'iscritto tramite il canale che preferisci (email, WhatsApp, ecc.)
 
@@ -154,8 +154,8 @@ Un account disattivato non può fare login e la sua tessera QR risulta "NON VALI
 
 #### Rigenerare il link di invito
 
-Se l'iscritto ha perso il link o è scaduto (72h), clicca **Rigenera link**.
-Il vecchio link viene invalidato automaticamente e viene creato un nuovo link valido 72 ore.
+Se l'iscritto ha perso il link o è scaduto (24h), clicca **Rigenera link**.
+Il vecchio link viene invalidato automaticamente e viene creato un nuovo link valido 24 ore.
 Copialo e invialo nuovamente all'iscritto.
 
 ### 4b. Gestione convenzioni
@@ -193,7 +193,7 @@ Clicca **Modifica** sulla convenzione, cambia i campi, clicca **Aggiorna**.
 4. Imposta la password (minimo 8 caratteri) e clicca **Imposta password e accedi**
 5. Viene portato direttamente alla **tessera**
 
-> Il link scade dopo 72 ore. Se l'iscritto non lo usa in tempo, l'admin può rigenerarne uno nuovo.
+> Il link scade dopo 24 ore. Se l'iscritto non lo usa in tempo, l'admin può rigenerarne uno nuovo.
 
 ### 5b. Accessi successivi
 
@@ -280,7 +280,7 @@ Il modo corretto è: clicca **Rigenera link** sulla riga dell'utente → invia i
 | Problema | Soluzione |
 |----------|-----------|
 | L'app è lenta al primo carico | Cold start del piano gratuito Render — normale, aspetta 20–50s |
-| Link di invito "non valido" | Scaduto (72h) o già usato — rigenera dal pannello admin |
+| Link di invito "non valido" | Scaduto (24h) o già usato — rigenera dal pannello admin |
 | QR "scaduto" durante la verifica | L'iscritto deve aprire la tessera e aspettare l'aggiornamento automatico (max 50s) |
 | Iscritto non riesce ad accedere | Controlla che l'account sia attivo nel pannello admin |
 | Tessera mostra "NON VALIDA" al QR | Account disattivato dall'admin |

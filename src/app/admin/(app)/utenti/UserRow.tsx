@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { setUserActive } from '@/app/actions/admin'
 import { regenerateInvite } from '@/app/actions/invite'
+import styles from '../Admin.module.css'
 
 interface User {
   id: string
@@ -40,64 +41,60 @@ export default function UserRow({ user }: { user: User }) {
   }
 
   return (
-    <div className={`bg-white rounded-[14px] border px-4 py-3.5 ${user.active ? 'border-line' : 'border-red-200 opacity-70'}`}>
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="font-mono text-[14px] font-semibold text-ink">{user.username}</p>
-          <p className="text-[11px] text-muted mt-0.5">
-            Creato il {new Date(user.createdAt).toLocaleDateString('it-IT')}
-            {' · '}
-            {hasPassword ? 'password impostata' : (
-              <span className="text-amber-deep font-semibold">password non ancora impostata</span>
+    <article className={`${styles.item} ${user.active ? '' : styles.itemInactive}`}>
+      <div className={styles.itemTop}>
+        <div className={styles.itemMain}>
+          <p className={styles.monoTitle}>{user.username}</p>
+          <p className={styles.meta}>
+            Creato il {new Date(user.createdAt).toLocaleDateString('it-IT')} ·{' '}
+            {hasPassword ? (
+              'password impostata'
+            ) : (
+              <span className={styles.statusWarn}>password non ancora impostata</span>
             )}
           </p>
           {pendingToken && !hasPassword && (
-            <p className="text-[11px] text-muted mt-0.5">
+            <p className={styles.meta}>
               Link invito scade: {new Date(pendingToken.expiresAt).toLocaleString('it-IT')}
             </p>
           )}
         </div>
-        <span className={`flex-shrink-0 text-[10px] font-bold uppercase tracking-[.06em] px-2 py-1 rounded-full ${
-          user.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-        }`}>
+        <span className={`${styles.status} ${user.active ? styles.statusActive : styles.statusInactive}`}>
           {user.active ? 'attivo' : 'disattivo'}
         </span>
       </div>
 
-      {/* Link copiato */}
       {linkResult && (
-        <div className="mt-3 flex gap-2 items-start bg-[#F5F8F9] rounded-lg p-2">
-          <p className="font-mono text-[10px] text-ink break-all flex-1">{linkResult}</p>
+        <div className={styles.linkBox}>
+          <p className={styles.linkText}>{linkResult}</p>
           <button
-            onClick={() => { navigator.clipboard.writeText(linkResult); setLinkResult(null) }}
-            className="flex-shrink-0 bg-petrol text-white text-[10px] font-bold px-2 py-1 rounded cursor-pointer"
+            onClick={() => {
+              navigator.clipboard.writeText(linkResult)
+              setLinkResult(null)
+            }}
+            className={`${styles.button} ${styles.primaryButton}`}
           >
             Copia
           </button>
         </div>
       )}
 
-      {/* Azioni */}
-      <div className="flex gap-2 mt-3 flex-wrap">
+      <div className={styles.actions}>
         <button
           onClick={toggleActive}
           disabled={isPending}
-          className={`text-[11px] font-semibold px-3 py-1.5 rounded-lg border transition disabled:opacity-50 cursor-pointer ${
-            user.active
-              ? 'border-red-200 text-red-600 hover:bg-red-50'
-              : 'border-green-200 text-green-700 hover:bg-green-50'
-          }`}
+          className={`${styles.button} ${user.active ? styles.dangerButton : styles.successButton}`}
         >
           {user.active ? 'Disattiva' : 'Riattiva'}
         </button>
         <button
           onClick={handleRegenerateLink}
           disabled={isPending}
-          className="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-line text-muted hover:bg-[#F5F8F9] transition disabled:opacity-50 cursor-pointer"
+          className={styles.button}
         >
           Rigenera link
         </button>
       </div>
-    </div>
+    </article>
   )
 }

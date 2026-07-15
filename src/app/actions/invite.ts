@@ -8,7 +8,7 @@ import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/auth'
 import { createSession } from '@/lib/session'
 
-const INVITE_EXPIRY_HOURS = 72
+const INVITE_EXPIRY_HOURS = 24
 
 function generateToken(): string {
   return randomBytes(32).toString('hex')

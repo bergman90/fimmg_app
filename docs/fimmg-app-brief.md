@@ -36,7 +36,7 @@ Tre viste, fedeli al prototipo:
 - **Nessuna registrazione autonoma.** Solo l'admin crea gli account.
 - Alla creazione, il sistema genera:
   - uno **username non identificativo** (es. `FIMMG-SARD-####`);
-  - un **link di invito monouso a scadenza** (es. 72h).
+  - un **link di invito monouso a scadenza** (24h).
 - L'admin **inoltra il link** all'iscritto sul proprio canale (email/WhatsApp);
   l'app **non memorizza email né contatti**.
 - Aprendo il link, l'iscritto **sceglie da sé la password**. La password
