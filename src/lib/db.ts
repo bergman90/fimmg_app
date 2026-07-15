@@ -1,7 +1,7 @@
 import { PrismaClient } from '@/generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined }
 
 function createClient(): PrismaClient {
   const connectionString = process.env.DATABASE_URL
@@ -10,8 +10,13 @@ function createClient(): PrismaClient {
   return new PrismaClient({ adapter })
 }
 
-export const db = globalForPrisma.prisma ?? createClient()
-
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = db
-}
+// Lazy proxy: il client viene creato solo al primo accesso effettivo,
+// non al caricamento del modulo (evita errori durante il build di Next.js).
+export const db: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    if (!globalForPrisma.prisma) {
+      globalForPrisma.prisma = createClient()
+    }
+    return (globalForPrisma.prisma as unknown as Record<string | symbol, unknown>)[prop]
+  },
+})

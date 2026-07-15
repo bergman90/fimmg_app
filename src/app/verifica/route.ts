@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server'
 import { verifyQrToken } from '@/lib/qr'
 import { db } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 // Colori dal design system FIMMG
 const COLOR_PETROLIO = '#06556E'
 const COLOR_AMBER    = '#F5A632'
