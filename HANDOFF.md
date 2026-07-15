@@ -6,7 +6,7 @@
 > aggiorna "Stato attuale" e aggiungi una nuova voce in fondo al changelog
 > con data e ora.
 
-## Stato attuale (ultimo aggiornamento: 2026-07-15 18:00)
+## Stato attuale (ultimo aggiornamento: 2026-07-15 18:30)
 
 - **Stack scelto**: Next.js (TypeScript, App Router) + Prisma + PostgreSQL.
 - **Hosting scelto**: Render (app, free tier, region Frankfurt/EU) + Neon
@@ -33,16 +33,26 @@
   - `actions/auth.ts` — Server Actions: `loginUser`, `loginAdmin`, `logout` (argon2id, anti-timing attack)
   - `actions/invite.ts` — Server Actions: `createInvite`, `regenerateInvite`, `redeemInvite`
 
-### Da fare prima/durante la prossima sessione
-- [ ] Ottenere dall'associazione il **testo della pagina privacy** (brief sezione 8) — serve prima di pubblicare la pagina informativa.
-- [ ] Decidere/produrre la **versione bianca del logo** FIMMG per lo sfondo petrolio.
-- [ ] Creare account **Render** (https://render.com) quando il codice sarà pronto per il primo deploy.
-- [ ] **Logo bianco** FIMMG per lo sfondo petrolio della tessera — per ora è usato lo stesso logo a colori come placeholder (`public/logo-white.png`).
-- [ ] **Icone PWA** (`public/icons/icon-192.png`, `public/icons/icon-512.png`) — necessarie per installazione app su telefono.
-- [ ] Prima del deploy: eseguire `npm run seed-admin` per creare l'account admin.
-- [ ] Aggiornare `NEXT_PUBLIC_BASE_URL` nel `.env` con l'URL Render dopo il deploy.
-- [ ] Logo bianco FIMMG (`public/logo-white.png`) — placeholder attuale = logo a colori.
-- [ ] Icone PWA (`public/icons/icon-192.png`, `public/icons/icon-512.png`).
+### Da fare nella prossima sessione
+
+#### UI (può farlo Claude normale — solo JSX/HTML/CSS, niente da eseguire)
+- [ ] **Tessera** — riscrivere `src/app/tessera/TesseraClient.tsx` copiando CSS e struttura HTML da `docs/fimmg-prototipo.html`, mantenendo la logica React/TS invariata.
+- [ ] **Admin login** — riscrivere `src/app/admin/login/page.tsx` + `AdminLoginForm.tsx` se necessario.
+
+#### Asset (richiede file dall'associazione o da creare)
+- [ ] **Logo bianco** — `public/logo-white.png` è placeholder (= logo a colori). Serve versione bianca ufficiale per sfondo petrolio della tessera.
+- [ ] **Icone PWA** — `public/icons/icon-192.png` e `public/icons/icon-512.png` mancanti. Servono per installare l'app sul telefono (bastano due PNG con il logo).
+
+#### Contenuti (dipende dall'associazione)
+- [ ] **Pagina privacy** — testo da ricevere dall'associazione (brief sezione 8).
+
+#### Già fatto e funzionante
+- ✅ App deployata su Render: https://fimmg-app.onrender.com
+- ✅ DB Neon configurato e migrato
+- ✅ Login page pixel-perfect sul prototipo (CSS inline copiato 1:1)
+- ✅ Flusso completo funzionante: login → tessera → QR → verifica → convenzioni
+- ✅ Pannello admin: utenti, convenzioni, tag
+- ✅ Security headers, rate limiting, sanitizzazione HTML
 
 ## Task rimanenti (ordine suggerito dal brief, sezione 10)
 
@@ -67,6 +77,18 @@
 - Nessuna registrazione autonoma: solo l'admin crea gli account.
 
 ## Changelog
+
+### 2026-07-15 18:30 — Sessione 9 (login pixel-perfect + handoff)
+
+**Modifiche apportate:**
+- `src/app/login/page.tsx` — riscritto con CSS inline copiato 1:1 dal prototipo. Struttura identica: sfondo paper, logo 210px, card con shadow corretta, nota con icona lucchetto e testo esatto del prototipo.
+- `src/app/login/LoginForm.tsx` — riscritto con CSS inline: label `margin:14px 0 6px`, field `padding:13px 14px` IBM Plex Mono, button `padding:15px`, focus/hover gestiti via onFocus/onBlur.
+
+**Stato app:** funzionante e deployata. Login visivamente identico al prototipo.
+
+**Prossime fasi:** vedi sezione "Da fare" sopra. UI tessera/convenzioni può essere fatta con Claude normale (solo JSX/HTML, niente da eseguire).
+
+---
 
 ### 2026-07-15 18:00 — Sessione 8 (UI layout fix)
 
