@@ -6,7 +6,7 @@
 > aggiorna "Stato attuale" e aggiungi una nuova voce in fondo al changelog
 > con data e ora.
 
-## Stato attuale (ultimo aggiornamento: 2026-07-15 18:30)
+## Stato attuale (ultimo aggiornamento: 2026-07-15 19:32)
 
 - **Stack scelto**: Next.js (TypeScript, App Router) + Prisma + PostgreSQL.
 - **Hosting scelto**: Render (app, free tier, region Frankfurt/EU) + Neon
@@ -15,7 +15,7 @@
 - **Riferimenti di progetto** (copiati anche in questa repo):
   - [`docs/fimmg-app-brief.md`](docs/fimmg-app-brief.md) — brief originale, requisiti completi.
   - [`docs/fimmg-prototipo.html`](docs/fimmg-prototipo.html) — **fonte di verità per l'aspetto** (colori, tessera, orologio vivo, lista convenzioni). Aprilo nel browser per vedere il riferimento pixel-perfect.
-  - [`docs/assets/fimmg-logo-color.png`](docs/assets/fimmg-logo-color.png) — logo a colori. **Manca la versione bianca** per lo sfondo petrolio della tessera (il brief la richiede, sezione 9) — può essere derivata automaticamente dal file a colori se non arriva quella ufficiale.
+  - [`docs/assets/fimmg-logo-color.png`](docs/assets/fimmg-logo-color.png) — logo a colori. La versione bianca per la tessera è ora in `public/logo-white.png`.
 - **Repo git**: dedicata a questo progetto, collegata a `https://github.com/bergman90/fimmg_app.git`, branch `main`. (La cartella utente Windows `C:\Users\blasf` risulta essere *anche lei* una repo git a sé, probabilmente per errore — non è collegata a questo progetto, non toccarla.)
 
 ### Fatto finora
@@ -36,11 +36,11 @@
 ### Da fare nella prossima sessione
 
 #### UI (può farlo Claude normale — solo JSX/HTML/CSS, niente da eseguire)
-- [ ] **Tessera** — riscrivere `src/app/tessera/TesseraClient.tsx` copiando CSS e struttura HTML da `docs/fimmg-prototipo.html`, mantenendo la logica React/TS invariata.
+- [x] **Tessera** — layout aggiornato con `TesseraClient.module.css` e loghi FIMMG forniti.
 - [ ] **Admin login** — riscrivere `src/app/admin/login/page.tsx` + `AdminLoginForm.tsx` se necessario.
 
 #### Asset (richiede file dall'associazione o da creare)
-- [ ] **Logo bianco** — `public/logo-white.png` è placeholder (= logo a colori). Serve versione bianca ufficiale per sfondo petrolio della tessera.
+- [x] **Logo bianco** — sostituito `public/logo-white.png` con il file fornito dall'associazione.
 - [ ] **Icone PWA** — `public/icons/icon-192.png` e `public/icons/icon-512.png` mancanti. Servono per installare l'app sul telefono (bastano due PNG con il logo).
 
 #### Contenuti (dipende dall'associazione)
@@ -77,6 +77,24 @@
 - Nessuna registrazione autonoma: solo l'admin crea gli account.
 
 ## Changelog
+
+### 2026-07-15 19:32 — Sessione 10 (layout tessera + loghi FIMMG)
+
+**Modifiche apportate:**
+- `src/app/tessera/TesseraClient.tsx` — sostituito con la versione fornita dall'utente, con import `./TesseraClient.module.css` e logo caricato da `/logo-white.png`.
+- `src/app/tessera/TesseraClient.module.css` — aggiunto CSS module dedicato per il layout della tessera.
+- `public/logo-white.png` e `public/logo-color.png` — sostituiti con i file forniti.
+- Verificato che non esistano riferimenti o file al vecchio logo circolare.
+
+**Verifica:**
+- `npm.cmd run build` completato con successo. Resta solo il warning non bloccante del driver Postgres su `sslmode`.
+
+**Prossime fasi:**
+- Aggiungere icone PWA `public/icons/icon-192.png` e `public/icons/icon-512.png`.
+- Preparare pagina privacy quando l'associazione fornisce il testo.
+- Valutare se rifinire anche il login admin.
+
+---
 
 ### 2026-07-15 18:30 — Sessione 9 (login pixel-perfect + handoff)
 
