@@ -6,7 +6,7 @@
 > aggiorna "Stato attuale" e aggiungi una nuova voce in fondo al changelog
 > con data e ora.
 
-## Stato attuale (ultimo aggiornamento: 2026-07-15 19:32)
+## Stato attuale (ultimo aggiornamento: 2026-07-15 19:47)
 
 - **Stack scelto**: Next.js (TypeScript, App Router) + Prisma + PostgreSQL.
 - **Hosting scelto**: Render (app, free tier, region Frankfurt/EU) + Neon
@@ -49,7 +49,7 @@
 #### Già fatto e funzionante
 - ✅ App deployata su Render: https://fimmg-app.onrender.com
 - ✅ DB Neon configurato e migrato
-- ✅ Login page pixel-perfect sul prototipo (CSS inline copiato 1:1)
+- ✅ Login page aggiornata al prototipo con wrapper device e CSS module dedicato
 - ✅ Flusso completo funzionante: login → tessera → QR → verifica → convenzioni
 - ✅ Pannello admin: utenti, convenzioni, tag
 - ✅ Security headers, rate limiting, sanitizzazione HTML
@@ -77,6 +77,23 @@
 - Nessuna registrazione autonoma: solo l'admin crea gli account.
 
 ## Changelog
+
+### 2026-07-15 19:47 — Sessione 11 (login device prototype)
+
+**Modifiche apportate:**
+- `src/app/login/page.tsx` — aggiornata la pagina login al nuovo riferimento `fimmg-prototipo_1.html`: sfondo petrolio radiale, wrapper device, statusbar/notch, logo e card centrata.
+- `src/app/login/LoginForm.tsx` — rimosso lo styling inline e collegato al CSS module.
+- `src/app/login/Login.module.css` — aggiunto CSS module con misure e stati del prototipo, più vincoli responsive per schermi piccoli.
+
+**Verifica:**
+- `npm.cmd run build` completato con successo. Resta solo il warning non bloccante del driver Postgres su `sslmode`.
+
+**Prossime fasi:**
+- Aggiungere icone PWA `public/icons/icon-192.png` e `public/icons/icon-512.png`.
+- Preparare pagina privacy quando l'associazione fornisce il testo.
+- Valutare se rifinire anche il login admin.
+
+---
 
 ### 2026-07-15 19:32 — Sessione 10 (layout tessera + loghi FIMMG)
 
