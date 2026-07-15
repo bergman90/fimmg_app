@@ -8,36 +8,62 @@ export default async function LoginPage() {
   if (session?.role === 'admin') redirect('/admin')
 
   return (
-    <main className="min-h-dvh flex flex-col items-center justify-center px-[30px] py-8 bg-paper">
-      <div className="w-full max-w-sm">
+    <main style={{
+      minHeight: '100dvh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      padding: '0 30px',
+      background: '#EDF1F2',
+    }}>
 
-        {/* Logo */}
-        <img
-          src="/logo-color.png"
-          alt="FIMMG Sardegna"
-          className="w-[210px] block mx-auto mb-[30px]"
-        />
+      {/* Logo */}
+      <img
+        src="/logo-color.png"
+        alt="FIMMG Sardegna"
+        style={{ width: 210, display: 'block', margin: '0 auto 30px' }}
+      />
 
-        {/* Card */}
-        <div className="bg-white border border-[#DCE6E9] rounded-[22px] px-[22px] pt-[24px] pb-[26px]"
-          style={{ boxShadow: '0 14px 40px -22px rgba(4,61,80,.5)' }}>
-          <h1 className="text-[19px] font-bold tracking-[-0.02em] text-ink mb-[2px]">Accedi alla tua tessera</h1>
-          <p className="text-[13px] text-muted mb-[20px] leading-[1.4]">
-            Riservato agli iscritti FIMMG Sardegna.
-          </p>
-          <LoginForm />
-
-          {/* Nota — dentro la card come nel prototipo */}
-          <div className="flex gap-[9px] items-start mt-[20px] px-[14px] py-[12px] rounded-xl text-[12px] leading-[1.45]"
-            style={{ background: 'rgba(6,85,110,.06)', color: '#4a6c78' }}>
-            <svg className="flex-shrink-0 mt-[1px]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
-            </svg>
-            Gli account sono creati dall'associazione. Per assistenza contatta la segreteria FIMMG Sardegna.
-          </div>
+      {/* Card */}
+      <div style={{
+        background: '#fff',
+        border: '1px solid #DCE6E9',
+        borderRadius: 22,
+        padding: '24px 22px 26px',
+        boxShadow: '0 14px 40px -22px rgba(4,61,80,.5)',
+      }}>
+        <div style={{ fontSize: 19, fontWeight: 700, letterSpacing: '-.02em', marginBottom: 2, color: '#0A2A34' }}>
+          Accedi alla tua tessera
+        </div>
+        <div style={{ fontSize: 13, color: '#6B8792', marginBottom: 20, lineHeight: 1.4 }}>
+          Riservato agli iscritti FIMMG Sardegna.
         </div>
 
+        <LoginForm />
+
+        {/* Nota */}
+        <div style={{
+          display: 'flex',
+          gap: 9,
+          alignItems: 'flex-start',
+          marginTop: 20,
+          padding: '12px 14px',
+          background: 'rgba(6,85,110,.06)',
+          borderRadius: 12,
+          fontSize: 12,
+          color: '#4a6c78',
+          lineHeight: 1.45,
+        }}>
+          <svg style={{ flexShrink: 0, marginTop: 1 }} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a6c78" strokeWidth="2">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <span>
+            Non è prevista la registrazione autonoma. Gli account sono creati dall'associazione: se non hai le credenziali, contatta la segreteria.
+          </span>
+        </div>
       </div>
+
     </main>
   )
 }
