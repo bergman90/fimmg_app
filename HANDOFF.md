@@ -6,7 +6,7 @@
 > aggiorna "Stato attuale" e aggiungi una nuova voce in fondo al changelog
 > con data e ora.
 
-## Stato attuale (ultimo aggiornamento: 2026-07-15 19:47)
+## Stato attuale (ultimo aggiornamento: 2026-07-15 19:58)
 
 - **Stack scelto**: Next.js (TypeScript, App Router) + Prisma + PostgreSQL.
 - **Hosting scelto**: Render (app, free tier, region Frankfurt/EU) + Neon
@@ -41,7 +41,7 @@
 
 #### Asset (richiede file dall'associazione o da creare)
 - [x] **Logo bianco** — sostituito `public/logo-white.png` con il file fornito dall'associazione.
-- [ ] **Icone PWA** — `public/icons/icon-192.png` e `public/icons/icon-512.png` mancanti. Servono per installare l'app sul telefono (bastano due PNG con il logo).
+- [x] **Icone PWA** — aggiunte `public/icons/icon-192.png`, `public/icons/icon-512.png` e `public/apple-touch-icon.png`.
 
 #### Contenuti (dipende dall'associazione)
 - [ ] **Pagina privacy** — testo da ricevere dall'associazione (brief sezione 8).
@@ -53,6 +53,7 @@
 - ✅ Flusso completo funzionante: login → tessera → QR → verifica → convenzioni
 - ✅ Pannello admin: utenti, convenzioni, tag
 - ✅ Security headers, rate limiting, sanitizzazione HTML
+- ✅ Anteprima link social/WhatsApp configurata con logo FIMMG (`public/social-preview.png`)
 
 ## Task rimanenti (ordine suggerito dal brief, sezione 10)
 
@@ -77,6 +78,25 @@
 - Nessuna registrazione autonoma: solo l'admin crea gli account.
 
 ## Changelog
+
+### 2026-07-15 19:58 — Sessione 12 (PWA icons + link preview)
+
+**Modifiche apportate:**
+- `public/social-preview.png` — aggiunta immagine Open Graph 1200x630 con logo FIMMG Sardegna.
+- `public/icons/icon-192.png`, `public/icons/icon-512.png`, `public/apple-touch-icon.png` — aggiunte icone PWA/home screen generate dal logo fornito.
+- `src/app/layout.tsx` — aggiunti `metadataBase`, Open Graph, Twitter card e icone app.
+- `src/app/manifest.ts` — aggiornato manifest PWA con `id` e icone maskable.
+
+**Verifica:**
+- `npm.cmd run build` completato con successo. Resta solo il warning non bloccante del driver Postgres su `sslmode`.
+- Verificato localmente che `/login` emetta riferimenti `og:image`, `twitter:image`, manifest e apple touch icon.
+- Verificato localmente che `/social-preview.png` e `/icons/icon-192.png` rispondano 200.
+
+**Prossime fasi:**
+- Preparare pagina privacy quando l'associazione fornisce il testo.
+- Valutare se rifinire anche il login admin.
+
+---
 
 ### 2026-07-15 19:47 — Sessione 11 (login device prototype)
 
