@@ -11,7 +11,7 @@ export default function LoginForm() {
 
   return (
     <form action={action} noValidate>
-      <label className="block text-[11px] font-semibold uppercase tracking-[.08em] text-[#6B8792] mb-1.5 mt-0">
+      <label className="block text-[11px] font-semibold uppercase tracking-[.08em] text-[#6B8792] mt-[14px] mb-[6px]">
         Nome utente
       </label>
       <input
@@ -20,10 +20,10 @@ export default function LoginForm() {
         autoComplete="username"
         placeholder="FIMMG-SARD-0000"
         required
-        className="w-full bg-[#F5F8F9] border border-[#DCE6E9] rounded-xl px-3.5 py-3 text-[15px] font-mono text-[#0A2A34] placeholder:text-[#A9BEC6] outline-none focus:border-[#06556E] focus:bg-white transition"
+        className="w-full bg-[#F5F8F9] border border-[#DCE6E9] rounded-xl px-[14px] py-[13px] text-[15px] font-mono text-[#0A2A34] placeholder:text-[#A9BEC6] outline-none focus:border-[#06556E] focus:bg-white transition"
       />
 
-      <label className="block text-[11px] font-semibold uppercase tracking-[.08em] text-[#6B8792] mb-1.5 mt-4">
+      <label className="block text-[11px] font-semibold uppercase tracking-[.08em] text-[#6B8792] mt-[14px] mb-[6px]">
         Password
       </label>
       <input
@@ -32,7 +32,7 @@ export default function LoginForm() {
         autoComplete="current-password"
         placeholder="••••••••"
         required
-        className="w-full bg-[#F5F8F9] border border-[#DCE6E9] rounded-xl px-3.5 py-3 text-[15px] font-mono text-[#0A2A34] placeholder:text-[#A9BEC6] outline-none focus:border-[#06556E] focus:bg-white transition"
+        className="w-full bg-[#F5F8F9] border border-[#DCE6E9] rounded-xl px-[14px] py-[13px] text-[15px] font-mono text-[#0A2A34] placeholder:text-[#A9BEC6] outline-none focus:border-[#06556E] focus:bg-white transition"
       />
 
       {state && 'error' in state && (
@@ -42,7 +42,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="w-full mt-5 bg-[#06556E] hover:bg-[#075d79] active:scale-[.985] text-white rounded-xl py-[15px] text-[15px] font-bold tracking-[.01em] transition disabled:opacity-60 cursor-pointer"
+        className="w-full mt-[22px] bg-[#06556E] hover:bg-[#075d79] active:scale-[.985] text-white rounded-xl py-[15px] text-[15px] font-bold tracking-[.01em] transition disabled:opacity-60 cursor-pointer"
       >
         {pending ? 'Accesso in corso…' : 'Accedi'}
       </button>

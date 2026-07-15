@@ -84,7 +84,7 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
   return (
     <div className="min-h-dvh flex flex-col bg-paper">
       {/* Header */}
-      <header className="flex items-center justify-between px-5 py-4 bg-paper">
+      <header className="flex items-center justify-between px-[22px] pt-[20px] pb-[6px] bg-paper">
         <div className="flex items-center gap-2.5">
           <span className="text-[15px] font-extrabold tracking-tight text-petrol">FIMMG</span>
           <span className="text-[10px] font-bold tracking-[.16em] uppercase text-amber-deep">Sardegna</span>
@@ -99,7 +99,7 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
       {/* Contenuto tab */}
       <main className="flex-1 overflow-y-auto hide-scrollbar">
         {tab === 'tessera' && (
-          <div className="tab-fade px-4 pb-6">
+          <div className="tab-fade px-[18px] pt-2 pb-[26px]">
             {/* Badge card */}
             <div className="relative rounded-[26px] px-6 pt-6 pb-5 text-white overflow-hidden mt-3"
               style={{ background: 'linear-gradient(158deg, #0a6180 0%, #06556E 46%, #043D50 100%)', boxShadow: '0 26px 50px -22px rgba(4,61,80,.85)' }}>
@@ -132,7 +132,7 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
               </div>
 
               {/* Sigillo live */}
-              <div className="mt-6 mx-auto max-w-[290px] text-center border-t border-dashed border-white/[.28] pt-4">
+              <div className="mt-[22px] mb-1 mx-auto max-w-[290px] text-center border-t border-dashed border-white/[.28] pt-4">
                 <div className="flex items-center justify-center gap-2 text-[11px] tracking-[.18em] font-bold uppercase text-[#cfe6ee]">
                   <span className="w-[9px] h-[9px] rounded-full bg-amber pulse-dot inline-block" />
                   Tessera valida in questo momento
@@ -146,7 +146,7 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
             </div>
 
             {/* Hint verifica */}
-            <p className="mt-4 text-[12px] text-muted text-center leading-relaxed px-2">
+            <p className="mt-[18px] mx-[6px] text-[12px] text-muted text-center leading-[1.5] px-2">
               L'orario che scorre dimostra che la tessera è autentica e non uno screenshot.
               Al commerciante basta la fotocamera del telefono — nessuna app richiesta.
             </p>
@@ -162,9 +162,9 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
         )}
 
         {tab === 'convenzioni' && (
-          <div className="tab-fade px-4 pb-6">
-            <h2 className="text-[23px] font-extrabold tracking-tight mt-3 mb-0.5 text-ink">Convenzioni attive</h2>
-            <p className="text-[13px] text-muted mb-4">Mostra la tua tessera presso le attività aderenti.</p>
+          <div className="tab-fade px-[18px] pt-2 pb-[26px]">
+            <h2 className="text-[23px] font-extrabold tracking-[-0.025em] mt-[14px] mx-1 mb-0.5 text-ink">Convenzioni attive</h2>
+            <p className="text-[13px] text-muted mx-1 mb-4">Mostra la tua tessera presso le attività aderenti.</p>
 
             {/* Ricerca */}
             <div className="relative mb-3.5">
@@ -186,9 +186,9 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
                 <button
                   key={tag}
                   onClick={() => setActiveTag(tag)}
-                  className={`flex-shrink-0 text-[11px] font-bold tracking-[.05em] uppercase px-3 py-1.5 rounded-full transition cursor-pointer ${
+                  className={`flex-shrink-0 text-[12px] font-semibold px-[14px] py-[7px] rounded-full whitespace-nowrap transition cursor-pointer ${
                     activeTag === tag
-                      ? 'bg-petrol text-white'
+                      ? 'bg-petrol text-white border border-petrol'
                       : 'bg-white border border-line text-muted'
                   }`}
                 >
@@ -202,8 +202,9 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
               <p className="text-center text-muted text-[14px] py-8">Nessuna convenzione trovata.</p>
             ) : (
               filtered.map(c => (
-                <div key={c.id} className="bg-white border border-line rounded-[16px] px-4 py-4 mb-2.5 transition hover:-translate-y-0.5 hover:shadow-md">
-                  <p className="text-[16px] font-bold tracking-tight text-ink mb-2">{c.name}</p>
+                <div key={c.id} className="bg-white border border-line rounded-[16px] px-4 pt-4 pb-[15px] mb-[11px] mx-1 transition hover:-translate-y-0.5"
+                  style={{ boxShadow: '0 8px 20px -16px rgba(4,61,80,.4)' }}>
+                  <p className="text-[16px] font-bold tracking-[-0.01em] text-ink mb-[9px]">{c.name}</p>
                   <div className="flex flex-wrap gap-1.5 mb-2.5">
                     {c.tags.map(t => (
                       <span key={t} className="text-[10.5px] font-bold tracking-[.05em] uppercase px-2 py-1 rounded-[7px] bg-petrol/10 text-petrol">
@@ -221,8 +222,8 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
       </main>
 
       {/* Tab bar */}
-      <nav className="flex bg-white border-t border-line"
-        style={{ paddingBottom: 'calc(8px + env(safe-area-inset-bottom))' }}>
+      <nav className="flex bg-white border-t border-line px-2"
+        style={{ paddingTop: 8, paddingBottom: 'calc(8px + env(safe-area-inset-bottom))' }}>
         <TabButton
           active={tab === 'tessera'}
           onClick={() => setTab('tessera')}
@@ -259,13 +260,13 @@ function TabButton({ active, onClick, icon, label }: {
   return (
     <button
       onClick={onClick}
-      className={`flex-1 flex flex-col items-center gap-0.5 pt-2 pb-1.5 text-[11px] font-semibold transition cursor-pointer border-none bg-none ${
+      className={`flex-1 flex flex-col items-center gap-1 py-1.5 text-[11px] font-semibold transition cursor-pointer border-none bg-none ${
         active ? 'text-petrol' : 'text-muted'
       }`}
     >
       {icon}
       {label}
-      {active && <span className="w-1 h-1 rounded-full bg-amber" />}
+      <span className={`w-1 h-1 mt-px rounded-full bg-amber transition-opacity ${active ? 'opacity-100' : 'opacity-0'}`} />
     </button>
   )
 }

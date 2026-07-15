@@ -8,30 +8,35 @@ export default async function LoginPage() {
   if (session?.role === 'admin') redirect('/admin')
 
   return (
-    <main className="min-h-dvh flex flex-col items-center justify-center px-4 py-8"
-      style={{ background: 'radial-gradient(120% 90% at 50% -10%, #0a6685 0%, #06556E 42%, #043D50 100%)' }}>
+    <main className="min-h-dvh flex flex-col items-center justify-center px-[30px] py-8 bg-paper">
       <div className="w-full max-w-sm">
+
         {/* Logo */}
-        <div className="flex flex-col items-center mb-8">
-          <img src="/logo-color.png" alt="FIMMG Sardegna" className="w-48 mb-1" />
-        </div>
+        <img
+          src="/logo-color.png"
+          alt="FIMMG Sardegna"
+          className="w-[210px] block mx-auto mb-[30px]"
+        />
 
         {/* Card */}
-        <div className="bg-white rounded-[22px] border border-[#DCE6E9] shadow-[0_14px_40px_-22px_rgba(4,61,80,.5)] px-6 py-7">
-          <h1 className="text-[19px] font-bold tracking-tight text-[#0A2A34] mb-0.5">Accedi</h1>
-          <p className="text-[13px] text-[#6B8792] mb-5 leading-[1.4]">
-            Inserisci le credenziali fornite dall'associazione.
+        <div className="bg-white border border-[#DCE6E9] rounded-[22px] px-[22px] pt-[24px] pb-[26px]"
+          style={{ boxShadow: '0 14px 40px -22px rgba(4,61,80,.5)' }}>
+          <h1 className="text-[19px] font-bold tracking-[-0.02em] text-ink mb-[2px]">Accedi alla tua tessera</h1>
+          <p className="text-[13px] text-muted mb-[20px] leading-[1.4]">
+            Riservato agli iscritti FIMMG Sardegna.
           </p>
           <LoginForm />
+
+          {/* Nota — dentro la card come nel prototipo */}
+          <div className="flex gap-[9px] items-start mt-[20px] px-[14px] py-[12px] rounded-xl text-[12px] leading-[1.45]"
+            style={{ background: 'rgba(6,85,110,.06)', color: '#4a6c78' }}>
+            <svg className="flex-shrink-0 mt-[1px]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+            </svg>
+            Gli account sono creati dall'associazione. Per assistenza contatta la segreteria FIMMG Sardegna.
+          </div>
         </div>
 
-        {/* Nota */}
-        <div className="mt-4 flex gap-2.5 items-start bg-white/10 rounded-xl px-3.5 py-3 text-[12px] text-white/75 leading-[1.45]">
-          <svg className="flex-shrink-0 mt-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
-          </svg>
-          Gli account sono creati dall'associazione. Per assistenza contatta la segreteria FIMMG Sardegna.
-        </div>
       </div>
     </main>
   )

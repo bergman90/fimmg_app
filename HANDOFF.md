@@ -6,7 +6,7 @@
 > aggiorna "Stato attuale" e aggiungi una nuova voce in fondo al changelog
 > con data e ora.
 
-## Stato attuale (ultimo aggiornamento: 2026-07-15 17:10)
+## Stato attuale (ultimo aggiornamento: 2026-07-15 18:00)
 
 - **Stack scelto**: Next.js (TypeScript, App Router) + Prisma + PostgreSQL.
 - **Hosting scelto**: Render (app, free tier, region Frankfurt/EU) + Neon
@@ -67,6 +67,31 @@
 - Nessuna registrazione autonoma: solo l'admin crea gli account.
 
 ## Changelog
+
+### 2026-07-15 18:00 — Sessione 8 (UI layout fix)
+
+**Modifiche apportate:**
+- `src/app/login/page.tsx` — sfondo cambiato da gradient petrolio a `bg-paper`, logo 210px, nota informativa spostata dentro la card, testo titolo/sottotitolo allineati al prototipo ("Accedi alla tua tessera" / "Riservato agli iscritti FIMMG Sardegna.").
+- `src/app/login/LoginForm.tsx` — label con `margin: 14px 0 6px` (come prototipo, anche la prima), field padding `13px 14px`, button `margin-top: 22px`.
+- `src/app/tessera/TesseraClient.tsx` — molti fix layout per aderire al prototipo pixel-perfect:
+  - Header: `padding: 20px 22px 6px`
+  - Tabpage: `padding: 8px 18px 26px`
+  - Sigillo: `margin-top: 22px`
+  - Verify hint: `margin-top: 18px`, `line-height: 1.5`
+  - Conv page-title: `letter-spacing: -0.025em`, `margin: 14px 4px 2px`
+  - Filtri tag (fpill): `font-size: 12px`, `font-weight: 600`, `padding: 7px 14px`, rimosse uppercase/tracking
+  - Conv card: `padding-bottom: 15px`, `margin: 0 4px 11px`, `box-shadow` corretta
+  - Conv name: `letter-spacing: -0.01em`, `margin-bottom: 9px`
+  - Tabbar: `padding: 8px 8px calc(8px + env(safe-area-inset-bottom))`
+  - Amberdot: sempre nel DOM, opacity toggled via CSS (come prototipo)
+
+**Prossime fasi:**
+- [ ] Testare su mobile (iOS Safari + Android Chrome) per verificare safe-area-inset.
+- [ ] Sostituire `public/logo-white.png` con versione bianca ufficiale del logo FIMMG.
+- [ ] Aggiungere icone PWA (`public/icons/icon-192.png`, `public/icons/icon-512.png`).
+- [ ] Testare la pagina `/invito/[token]` (stile con gradient petrolio — verificare se l'utente è soddisfatto o preferisce stile diverso).
+
+---
 
 ### 2026-07-15 17:10 — Sessione 7 (hardening sicurezza)
 
