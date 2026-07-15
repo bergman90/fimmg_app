@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Iscritto FIMMG. Nessun dato personale: solo username anonimo (es. FIMMG-SARD-4837) e hash password.
+model User {
+  id           String        @id @default(cuid())
+  username     String        @unique
+  passwordHash String?
+  active       Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  inviteTokens InviteToken[]
+
+  @@map("users")
+}
+
+// Link di invito monouso e a scadenza, generato dall'admin e inoltrato dall'associazione fuori dall'app.
+model InviteToken {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@map("invite_tokens")
+}
+
+model Convention {
+  id           String   @id @default(cuid())
+  name         String
+  benefitText  String
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  tags         Tag[]
+
+  @@map("conventions")
+}
+
+// Tag liberi, creati dall'admin digitandoli.
+model Tag {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  conventions Convention[]
+
+  @@map("tags")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  @@map("admins")
+}
