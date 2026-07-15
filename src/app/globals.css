@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-petrol:      #06556E;
+  --color-petrol-deep: #043D50;
+  --color-ink:         #0A2A34;
+  --color-amber:       #F5A632;
+  --color-amber-deep:  #E08A1E;
+  --color-paper:       #EDF1F2;
+  --color-card:        #FFFFFF;
+  --color-muted:       #6B8792;
+  --color-line:        #DCE6E9;
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-mono), 'Courier New', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
+
+/* Scrollbar nascosta globalmente su mobile */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { scrollbar-width: none; }
+
+/* Animazione pulse per il pallino ambra */
+@keyframes pulse-amber {
+  0%   { box-shadow: 0 0 0 0 rgba(245,166,50,.65); }
+  70%  { box-shadow: 0 0 0 10px rgba(245,166,50,0); }
+  100% { box-shadow: 0 0 0 0 rgba(245,166,50,0); }
+}
+.pulse-dot {
+  animation: pulse-amber 1.8s infinite;
+}
+
+/* Fade-in tab */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.tab-fade { animation: fade-in .35s ease; }
