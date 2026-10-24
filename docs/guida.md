@@ -69,7 +69,7 @@ Compila i campi come segue:
 | **Region** | `Frankfurt (EU Central)` |
 | **Branch** | `main` |
 | **Runtime** | `Node` |
-| **Build Command** | `npm install && npx prisma generate && npm run build` |
+| **Build Command** | `npm install && npx prisma generate && npx prisma migrate deploy && npm run build` |
 | **Start Command** | `npm start` |
 | **Instance Type** | `Free` |
 
@@ -259,7 +259,9 @@ git commit -m "descrizione modifica"
 git push
 ```
 
-Render rileva automaticamente il push e rideploya l'app in 2–3 minuti.
+Render rileva automaticamente il push e rideploya l'app in 2–3 minuti. Il Build Command
+include `prisma migrate deploy`, quindi eventuali modifiche al database (nuove tabelle,
+nuovi campi) vengono applicate automaticamente ad ogni deploy — non serve fare nulla a mano.
 
 ### Backup del database
 
@@ -284,6 +286,7 @@ Il modo corretto è: clicca **Rigenera link** sulla riga dell'utente → invia i
 | QR "scaduto" durante la verifica | L'iscritto deve aprire la tessera e aspettare l'aggiornamento automatico (max 50s) |
 | Iscritto non riesce ad accedere | Controlla che l'account sia attivo nel pannello admin |
 | Tessera mostra "NON VALIDA" al QR | Account disattivato dall'admin |
+| "Server error" / pagina bianca dopo un aggiornamento | Il Build Command su Render non ha applicato una migration nuova. Verifica su Render → Settings → Build & Deploy che il Build Command sia `npm install && npx prisma generate && npx prisma migrate deploy && npm run build`, poi fai **Manual Deploy → Deploy latest commit** |
 
 ---
 
