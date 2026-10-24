@@ -194,7 +194,8 @@ export default function TesseraClient({ username, conventions, documents, baseUr
                     <a
                       key={d.id}
                       href={`/documenti/${encodeURIComponent(d.filename)}`}
-                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={styles.docItem}
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
