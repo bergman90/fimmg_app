@@ -13,9 +13,17 @@ interface Convention {
   tags: string[]
 }
 
+interface DocumentItem {
+  id: string
+  title: string
+  filename: string
+  folder: string
+}
+
 interface Props {
   username: string
   conventions: Convention[]
+  documents: DocumentItem[]
   baseUrl: string
 }
 
@@ -32,8 +40,8 @@ const GIORNI = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerd�
 const MESI   = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"]
 const pad = (n: number) => String(n).padStart(2, "0")
 
-export default function TesseraClient({ username, conventions, baseUrl }: Props) {
-  const [tab, setTab] = useState<"tessera" | "convenzioni">("tessera")
+export default function TesseraClient({ username, conventions, documents, baseUrl }: Props) {
+  const [tab, setTab] = useState<"tessera" | "convenzioni" | "documenti">("tessera")
   const [qrUrl, setQrUrl] = useState<string>("")
   const [search, setSearch] = useState("")
   const [activeTag, setActiveTag] = useState("Tutte")
@@ -65,6 +73,11 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
     const matchSearch = !q || c.name.toLowerCase().includes(q) || c.benefitText.toLowerCase().includes(q)
     return matchTag && matchSearch
   })
+
+  const documentsByFolder = documents.reduce<Record<string, DocumentItem[]>>((acc, d) => {
+    (acc[d.folder] ??= []).push(d)
+    return acc
+  }, {})
 
   const clockStr = now ? `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}` : "--:--:--"
   const dateStr  = now ? `${GIORNI[now.getDay()]} ${now.getDate()} ${MESI[now.getMonth()]} ${now.getFullYear()}` : "—"
@@ -165,6 +178,40 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
             )}
           </div>
         )}
+
+        {tab === "documenti" && (
+          <div className={styles.page}>
+            <h2 className={styles.pageTitle}>Documenti</h2>
+            <p className={styles.pageSub}>Materiale informativo e moduli a disposizione degli iscritti.</p>
+
+            {documents.length === 0 ? (
+              <p className={styles.empty}>Nessun documento disponibile al momento.</p>
+            ) : (
+              Object.entries(documentsByFolder).map(([folder, docs]) => (
+                <div key={folder} className={styles.docFolder}>
+                  <p className={styles.docFolderTitle}>{folder}</p>
+                  {docs.map(d => (
+                    <a
+                      key={d.id}
+                      href={`/documenti/${encodeURIComponent(d.filename)}`}
+                      download
+                      className={styles.docItem}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <path d="M14 2v6h6M12 11v6M9 14l3 3 3-3" />
+                      </svg>
+                      <span className={styles.docTitle}>{d.title}</span>
+                      <span className={styles.docExt}>
+                        {d.filename.split(".").pop()?.toUpperCase()}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </main>
 
       <nav className={styles.tabbar}>
@@ -180,6 +227,13 @@ export default function TesseraClient({ username, conventions, baseUrl }: Props)
             <path d="M4 6h16M4 12h16M4 18h10" />
           </svg>
           Convenzioni
+          <span className={styles.tabDot} />
+        </button>
+        <button onClick={() => setTab("documenti")} className={`${styles.tab} ${tab === "documenti" ? styles.tabActive : ""}`}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" />
+          </svg>
+          Documenti
           <span className={styles.tabDot} />
         </button>
       </nav>

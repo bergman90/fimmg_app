@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/auth'
 import { sanitizeBenefitText } from '@/lib/sanitize'
+import { documentFileExists } from '@/lib/documents'
 
 // ─── Utenti ───────────────────────────────────────────────────────────────────
 
@@ -114,5 +115,93 @@ export async function deleteConvention(id: string): Promise<UserActionResult> {
   await requireAdmin()
   await db.convention.delete({ where: { id } })
   revalidatePath('/admin/convenzioni')
+  return { ok: true }
+}
+
+// ─── Documenti ────────────────────────────────────────────────────────────────
+
+const DEFAULT_DOCUMENT_FOLDERS = ['Archivio ACN', 'Archivio AIR Sardegna']
+
+const DocumentSchema = z.object({
+  title:    z.string().min(1, 'Il titolo è obbligatorio').max(120),
+  filename: z.string().min(1, 'Seleziona un file'),
+  folder:   z.string().min(1, 'La cartella è obbligatoria').max(80),
+})
+
+export type DocumentResult = { error: string } | { ok: true }
+
+export async function listDocumentFolders(): Promise<string[]> {
+  const rows = await db.document.findMany({ distinct: ['folder'], select: { folder: true } })
+  const folders = new Set([...DEFAULT_DOCUMENT_FOLDERS, ...rows.map(r => r.folder)])
+  return Array.from(folders).sort((a, b) => a.localeCompare(b, 'it'))
+}
+
+export async function createDocument(
+  _prev: DocumentResult | null,
+  formData: FormData,
+): Promise<DocumentResult> {
+  await requireAdmin()
+
+  const parsed = DocumentSchema.safeParse({
+    title:    formData.get('title'),
+    filename: formData.get('filename'),
+    folder:   formData.get('folder'),
+  })
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
+
+  if (!(await documentFileExists(parsed.data.filename))) {
+    return { error: 'File non trovato tra quelli caricati. Chiedi allo sviluppatore di aggiungerlo.' }
+  }
+
+  await db.document.create({
+    data: {
+      title:    parsed.data.title,
+      filename: parsed.data.filename,
+      folder:   parsed.data.folder,
+    },
+  })
+
+  revalidatePath('/admin/documenti')
+  revalidatePath('/tessera')
+  return { ok: true }
+}
+
+export async function updateDocument(
+  id: string,
+  _prev: DocumentResult | null,
+  formData: FormData,
+): Promise<DocumentResult> {
+  await requireAdmin()
+
+  const parsed = z.object({
+    title:  z.string().min(1, 'Il titolo è obbligatorio').max(120),
+    folder: z.string().min(1, 'La cartella è obbligatoria').max(80),
+  }).safeParse({
+    title:  formData.get('title'),
+    folder: formData.get('folder'),
+  })
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
+
+  await db.document.update({ where: { id }, data: parsed.data })
+
+  revalidatePath('/admin/documenti')
+  revalidatePath('/tessera')
+  return { ok: true }
+}
+
+export async function toggleDocument(id: string): Promise<UserActionResult> {
+  await requireAdmin()
+  const doc = await db.document.findUniqueOrThrow({ where: { id }, select: { active: true } })
+  await db.document.update({ where: { id }, data: { active: !doc.active } })
+  revalidatePath('/admin/documenti')
+  revalidatePath('/tessera')
+  return { ok: true }
+}
+
+export async function deleteDocument(id: string): Promise<UserActionResult> {
+  await requireAdmin()
+  await db.document.delete({ where: { id } })
+  revalidatePath('/admin/documenti')
+  revalidatePath('/tessera')
   return { ok: true }
 }

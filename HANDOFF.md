@@ -6,7 +6,7 @@
 > aggiorna "Stato attuale" e aggiungi una nuova voce in fondo al changelog
 > con data e ora.
 
-## Stato attuale (ultimo aggiornamento: 2026-07-15 20:21)
+## Stato attuale (ultimo aggiornamento: 2026-10-24 14:08)
 
 - **Stack scelto**: Next.js (TypeScript, App Router) + Prisma + PostgreSQL.
 - **Hosting scelto**: Render (app, free tier, region Frankfurt/EU) + Neon
@@ -47,6 +47,7 @@
 - [ ] **Pagina privacy** — testo da ricevere dall'associazione (brief sezione 8).
 
 #### Già fatto e funzionante
+- ✅ **Sezione Documenti** (nuova, Sessione 15): tab "Documenti" nella tessera (ordine tab bar: Tessera · Convenzioni · Documenti), documenti raggruppati per cartella libera (es. "Archivio ACN", "Archivio AIR Sardegna"), pannello admin `/admin/documenti` per collegare titolo+cartella ai file. **I file fisici NON si caricano da pannello** (Render non ha storage persistente): vanno aggiunti via git in `public/documenti/` — quando l'utente manda un PDF/Word a Claude, Claude lo committa lì, poi l'admin lo collega dalla select "File" del pannello.
 - ✅ App deployata su Render: https://fimmg-app.onrender.com
 - ✅ DB Neon configurato e migrato
 - ✅ Login page aggiornata al prototipo con wrapper device e CSS module dedicato
@@ -78,6 +79,51 @@
 - Nessuna registrazione autonoma: solo l'admin crea gli account.
 
 ## Changelog
+
+### 2026-10-24 14:08 — Sessione 15 (sezione Documenti)
+
+**Contesto**: sessione ripresa da Claude Code on the web (container effimero, non il PC
+dell'utente). Fatto `git pull`, letto `HANDOFF.md`, mostrata anteprima layout via
+screenshot Playwright (Postgres locale temporaneo + dati finti, poi rimossi) prima di
+procedere — su richiesta dell'utente di "vedere come viene" prima di aggiungere feature.
+
+**Modifiche apportate:**
+- `prisma/schema.prisma` — nuovo modello `Document` (title, filename, folder, active).
+  Due migration: `add_document` poi `document_folder` (folder era mancante nella prima).
+- `src/lib/documents.ts` — `listAvailableDocumentFiles()` legge `public/documenti/`
+  (niente DB, niente upload: riflette i file fisici presenti nel repo).
+- `src/app/actions/admin.ts` — CRUD documenti: `createDocument`, `updateDocument`,
+  `toggleDocument`, `deleteDocument`, `listDocumentFolders()` (suggerisce le cartelle
+  esistenti + le due di default "Archivio ACN"/"Archivio AIR Sardegna" nel datalist).
+- `src/app/admin/(app)/documenti/` — nuova pagina admin (`page.tsx`, `DocumentForm.tsx`,
+  `DocumentList.tsx`), stesso pattern di Convenzioni: form "Collega documento" (titolo +
+  cartella con datalist + select file) ed elenco raggruppato per cartella con
+  modifica/nascondi/elimina. Aggiunta voce "Documenti" in `AdminNav.tsx`.
+- `src/app/tessera/page.tsx` + `TesseraClient.tsx` — terza tab "Documenti" (tab bar ora
+  Tessera · Convenzioni · Documenti, come richiesto). Documenti attivi raggruppati per
+  cartella, link `<a download>` diretto al file statico in `/documenti/<filename>`.
+  Nuovi stili in `TesseraClient.module.css` (`.docFolder`, `.docItem`, ecc.).
+- `public/documenti/.gitkeep` — cartella creata (vuota) per i futuri file reali.
+
+**Decisione architetturale importante**: niente upload da pannello admin — Render non ha
+filesystem persistente, un file caricato lì sparirebbe al prossimo deploy. Il flusso
+concordato con l'utente: lui manda i file a Claude in chat → Claude li committa in
+`public/documenti/` via git → l'admin li collega (titolo + cartella) dal pannello,
+scegliendoli da una select che riflette i file davvero presenti nel repo (niente nomi
+file scritti a mano, niente typo/404). Cartelle **libere** (come i tag delle convenzioni),
+non un enum fisso: "Archivio ACN" e "Archivio AIR Sardegna" sono solo le due di partenza.
+
+**Testato**: `tsc --noEmit`, `eslint`, `next build` puliti. End-to-end manuale con
+Postgres locale temporaneo + Playwright: creazione documento in due cartelle diverse da
+admin, verifica che compaiano raggruppati e scaricabili lato iscritto, screenshot inviati
+all'utente per conferma visiva. Dati/file di test rimossi a fine sessione.
+
+**Prossime fasi:**
+- [ ] L'utente deve ancora mandare i file veri (PDF/Word) da caricare in `public/documenti/`.
+- [ ] Poi: andare in `/admin/documenti` e collegarli (titolo + cartella).
+- [ ] Da vedere con l'utente se servono altre cartelle oltre alle due iniziali.
+
+---
 
 ### 2026-07-15 20:21 — Sessione 14 (link invito 24h)
 

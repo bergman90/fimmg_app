@@ -5,12 +5,16 @@ import TesseraClient from './TesseraClient'
 export default async function TesseraPage() {
   const session = await requireUser()
 
-  const [user, conventions] = await Promise.all([
+  const [user, conventions, documents] = await Promise.all([
     db.user.findUniqueOrThrow({ where: { id: session.userId }, select: { username: true } }),
     db.convention.findMany({
       where: { active: true },
       include: { tags: { select: { name: true } } },
       orderBy: { createdAt: 'asc' },
+    }),
+    db.document.findMany({
+      where: { active: true },
+      orderBy: [{ folder: 'asc' }, { createdAt: 'asc' }],
     }),
   ])
 
@@ -24,6 +28,12 @@ export default async function TesseraPage() {
         name: c.name,
         benefitText: c.benefitText,
         tags: c.tags.map(t => t.name),
+      }))}
+      documents={documents.map(d => ({
+        id: d.id,
+        title: d.title,
+        filename: d.filename,
+        folder: d.folder,
       }))}
       baseUrl={baseUrl}
     />
