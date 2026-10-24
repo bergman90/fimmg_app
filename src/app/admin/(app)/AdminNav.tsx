@@ -28,6 +28,7 @@ export default function AdminNav() {
         {[
           { href: '/admin/utenti',      label: 'Utenti' },
           { href: '/admin/convenzioni', label: 'Convenzioni' },
+          { href: '/admin/documenti',   label: 'Documenti' },
         ].map(({ href, label }) => (
           <Link
             key={href}

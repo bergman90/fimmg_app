@@ -65,6 +65,16 @@
 .benefit    { font-size:13.5px; color:#4a6470; line-height:1.5; }
 .empty      { text-align:center; color:#6B8792; font-size:14px; padding:30px 0; }
 
+/* ---- DOCUMENTI ---- */
+.docFolder      { margin:0 4px 18px; }
+.docFolderTitle { font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#E08A1E; margin:0 0 9px; }
+.docItem        { display:flex; align-items:center; gap:11px; background:#fff; border:1px solid #DCE6E9; border-radius:13px;
+                  padding:13px 14px; margin-bottom:9px; color:#0A2A34; text-decoration:none; box-shadow:0 8px 20px -16px rgba(4,61,80,.4); }
+.docItem svg    { flex:0 0 auto; color:#06556E; }
+.docTitle       { flex:1; font-size:14px; font-weight:650; }
+.docExt         { flex:0 0 auto; font-size:10px; font-weight:800; letter-spacing:.06em; color:#6B8792;
+                  background:#EDF1F2; padding:3px 8px; border-radius:7px; }
+
 /* ---- TAB BAR ---- */
 .tabbar     { display:flex; background:#fff; border-top:1px solid #DCE6E9; padding:8px 8px calc(8px + env(safe-area-inset-bottom)); }
 .tab        { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:6px;

@@ -55,6 +55,20 @@ model Tag {
   @@map("tags")
 }
 
+// Documento scaricabile (regolamenti, moduli...). Il file fisico vive in
+// public/documenti/<filename>, caricato via git — qui si registrano solo
+// titolo e nome file da mostrare/collegare agli iscritti.
+model Document {
+  id        String   @id @default(cuid())
+  title     String
+  filename  String
+  folder    String   // es. "Archivio ACN", "Archivio AIR Sardegna" — libero, come i tag delle convenzioni
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("documents")
+}
+
 model Admin {
   id           String   @id @default(cuid())
   username     String   @unique
