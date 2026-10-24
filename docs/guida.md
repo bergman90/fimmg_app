@@ -69,7 +69,7 @@ Compila i campi come segue:
 | **Region** | `Frankfurt (EU Central)` |
 | **Branch** | `main` |
 | **Runtime** | `Node` |
-| **Build Command** | `npm install && npx prisma generate && npx prisma migrate deploy && npm run build` |
+| **Build Command** | `npm install --include=dev && npx prisma generate && npx prisma migrate deploy && npm run build` |
 | **Start Command** | `npm start` |
 | **Instance Type** | `Free` |
 
@@ -286,7 +286,8 @@ Il modo corretto è: clicca **Rigenera link** sulla riga dell'utente → invia i
 | QR "scaduto" durante la verifica | L'iscritto deve aprire la tessera e aspettare l'aggiornamento automatico (max 50s) |
 | Iscritto non riesce ad accedere | Controlla che l'account sia attivo nel pannello admin |
 | Tessera mostra "NON VALIDA" al QR | Account disattivato dall'admin |
-| "Server error" / pagina bianca dopo un aggiornamento | Il Build Command su Render non ha applicato una migration nuova. Verifica su Render → Settings → Build & Deploy che il Build Command sia `npm install && npx prisma generate && npx prisma migrate deploy && npm run build`, poi fai **Manual Deploy → Deploy latest commit** |
+| "Server error" / pagina bianca dopo un aggiornamento | Una migration nuova non è stata applicata. Verifica su Render → Settings → Build & Deploy il Build Command (vedi tabella sopra), poi fai **Manual Deploy → Deploy latest commit** |
+| Build fallita, log con "Cannot find module '@tailwindcss/postcss'" (o altro pacchetto) | `NODE_ENV=production` fa saltare le devDependencies durante `npm install`, ma servono per compilare (Tailwind, TypeScript...). Il Build Command deve avere `npm install --include=dev` (vedi tabella sopra) — **non togliere** `NODE_ENV=production` dalle variabili d'ambiente: serve per i cookie di sessione sicuri |
 
 ---
 
